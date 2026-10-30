@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ur" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>برکتِ اخوت | Brothers Saving Fund 💚</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Noto+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--g:#0A2E26;--gold:#D4AF37;--bg:#F5F3EC;--c:#1B7F4B;--e:#B3261E;--w:#fff;--bd:#ddd8c8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#1c1c1c;font:16px/1.7 'Noto Sans',sans-serif}
+[lang=ur] body{font-family:'Noto Nastaliq Urdu','Noto Sans',serif;line-height:2.2}
+header{background:var(--g);color:#fff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+header h1{font-size:1.05rem;margin:0;color:var(--gold)}
+nav{background:var(--g);display:flex;overflow-x:auto;border-top:1px solid #1d4a3e}
+nav a{color:#fff;padding:6px 14px;white-space:nowrap;cursor:pointer;border-bottom:3px solid transparent}
+nav a.on{border-color:var(--gold);color:var(--gold)}
+main{max-width:1000px;margin:auto;padding:14px}
+button,select,input,textarea{font:inherit;padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:#fff}
+button{background:var(--g);color:#fff;border:0;cursor:pointer;min-height:40px}
+button.dng{background:var(--e)}button.alt{background:#fff;color:var(--g);border:1px solid var(--g)}
+button:disabled{opacity:.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.card{background:var(--w);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;margin-bottom:12px}
+.grid .card{margin:0}.card small{color:#555}.card b{display:block;font-size:1.25rem;direction:ltr;text-align:start}
+.big{border-top:4px solid var(--gold)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:4px 8px;border-bottom:1px solid var(--bd);text-align:start;white-space:nowrap}th{background:#efece0}
+td.n{direction:ltr;font-weight:600}td.c,.b.c{color:var(--c)}td.e,.b.e{color:var(--e)}
+tr.del td{text-decoration:line-through;opacity:.55}tr.del td:last-child,tr.del small{text-decoration:none}
+.fl{background:var(--gold);color:#000;border-radius:6px;padding:0 6px;text-decoration:none!important;display:inline-block}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.bars{display:flex;gap:8px;align-items:flex-end;height:140px;direction:ltr}
+.bars div{flex:1;text-align:center;font-size:.75rem}.bars span{display:inline-block;width:42%;vertical-align:bottom}
+dialog{border:0;border-radius:14px;padding:16px;width:min(440px,94vw)}dialog::backdrop{background:#0008}
+label{display:block;margin:6px 0}label input,label select,label textarea{width:100%}
+#toast{position:fixed;bottom:16px;inset-inline:16px;background:var(--g);color:#fff;padding:10px;border-radius:10px;text-align:center;z-index:9;display:none}
+.badge{background:var(--e);color:#fff;border-radius:10px;padding:0 7px;font-size:.75rem}
+.un{font-weight:700;border-inline-start:4px solid var(--gold);padding-inline-start:8px}
+.login{max-width:360px;margin:12vh auto;text-align:center}
+@media print{header,nav,.np,button{display:none!important}body{background:#fff}}
+</style></head><body>
+<div id="app"></div><dialog id="dlg"></dialog><div id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// ====== CONFIG: paste your Supabase Project URL and anon (public) key ======
+const SUPABASE_URL='https://opfvdwpfqrnryfsfpddv.supabase.co', SUPABASE_ANON_KEY='sb_publishable_n9o-O8s_idEzVXoxTO4xDw_ESF0lxFO';
+// ===========================================================================
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const T={en:{app:'Brothers Saving Fund',dash:'Dashboard',contrib:'Contributions',exp:'Expenses',tx:'Transactions',rep:'Reports',notif:'Notifications',set:'Settings',logout:'Logout',email:'Email',pass:'Password',login:'Log in',loginerr:'Wrong email or password',bal:'Current balance',tc:'Total contributions',te:'Total expenses',cm:'Contributions this month',em:'Expenses this month',cnt:'Recorded contributions',recent:'Recent transactions',perbro:"Each brother's contributions",chart:'Monthly: contributions vs expenses',latest:'Latest notifications',empty:'No records yet',addc:'Add contribution',adde:'Add expense',amount:'Amount (PKR)',date:'Date',period:'Month / period',ref:'Payment reference (optional)',notes:'Notes (optional)',brother:'Brother',title:'Expense title',category:'Category',reason:'Reason / description',save:'Save',cancel:'Cancel',edit:'Edit',del:'Delete',delconf:'Delete this record? It stays visible as removed and is kept in the audit log.',saved:'Saved',warnbal:'This expense is more than the current balance. Save anyway?',contribution:'Contribution',expense:'Expense',by:'Recorded by',edited:'Corrected',deleted:'Removed',all:'All',from:'From',to:'To',month:'Month',year:'Year',prev:'Previous',next:'Next',lang:'Language',newpass:'New password (min 8)',change:'Change',passok:'Password changed',opening:'Opening balance',name:'Name',csv:'Export CSV',print:'Print',net:'Net change',close:'Closing balance',bybro:'Contributions by brother',bycat:'Expenses by category',markall:'Mark all as read',nonew:'No notifications',id:'ID',err:'Error',invalid:'Invalid input',cats:'Categories',nameen:'Name (English)',nameur:'Name (Urdu)',updated:'Updated',details:'Details',type:'Type',brothers:'Brothers',total:'Total'},
+ur:{app:'برکتِ اخوت',dash:'ڈیش بورڈ',contrib:'جمع شدہ رقوم',exp:'اخراجات',tx:'تمام لین دین',rep:'رپورٹس',notif:'اطلاعات',set:'ترتیبات',logout:'لاگ آؤٹ',email:'ای میل',pass:'پاس ورڈ',login:'لاگ ان',loginerr:'ای میل یا پاس ورڈ درست نہیں',bal:'موجودہ بیلنس',tc:'کل جمع شدہ رقوم',te:'کل اخراجات',cm:'اس ماہ کی رقوم',em:'اس ماہ کے اخراجات',cnt:'درج شدہ رقوم کی تعداد',recent:'حالیہ لین دین',perbro:'ہر بھائی کی جمع شدہ رقم',chart:'ماہانہ: جمع بمقابلہ اخراجات',latest:'تازہ اطلاعات',empty:'ابھی کوئی ریکارڈ نہیں',addc:'رقم درج کریں',adde:'خرچ درج کریں',amount:'رقم (روپے)',date:'تاریخ',period:'متعلقہ مہینہ',ref:'ادائیگی کا حوالہ (اختیاری)',notes:'نوٹس (اختیاری)',brother:'بھائی',title:'خرچ کا عنوان',category:'زمرہ',reason:'وجہ / تفصیل',save:'محفوظ کریں',cancel:'منسوخ',edit:'ترمیم',del:'حذف',delconf:'کیا یہ ریکارڈ حذف کریں؟ یہ "ہٹایا گیا" کے طور پر نظر آئے گا اور آڈٹ لاگ میں محفوظ رہے گا۔',saved:'محفوظ ہو گیا',warnbal:'یہ خرچ موجودہ بیلنس سے زیادہ ہے۔ پھر بھی محفوظ کریں؟',contribution:'جمع رقم',expense:'خرچ',by:'درج کرنے والا',edited:'درست کیا گیا',deleted:'ہٹایا گیا',all:'سب',from:'از',to:'تا',month:'مہینہ',year:'سال',prev:'پچھلا',next:'اگلا',lang:'زبان',newpass:'نیا پاس ورڈ (کم از کم 8)',change:'تبدیل کریں',passok:'پاس ورڈ تبدیل ہو گیا',opening:'ابتدائی بیلنس',name:'نام',csv:'CSV ڈاؤن لوڈ',print:'پرنٹ',net:'خالص تبدیلی',close:'اختتامی بیلنس',bybro:'بھائیوں کے حساب سے رقوم',bycat:'زمرے کے حساب سے اخراجات',markall:'سب پڑھ لیے',nonew:'کوئی اطلاع نہیں',id:'نمبر',err:'خرابی',invalid:'غلط اندراج',cats:'زمرے',nameen:'نام (English)',nameur:'نام (اردو)',updated:'تازہ کاری',details:'تفصیل',type:'قسم',brothers:'بھائی',total:'کل'}};
+let D={},me=null,S={lang:localStorage.getItem('lang')||'ur',view:'dash',page:0,f:{},r:null};
+const t=k=>T[S.lang][k]??T.en[k]??k;
+const $=s=>document.querySelector(s), dlg=$('#dlg');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>'Rs. '+Number(n).toLocaleString('en-US');
+const fdt=i=>i?new Date(i).toLocaleString(S.lang==='ur'?'ur-PK':'en-GB',{dateStyle:'medium',timeStyle:'short'}):'';
+const isA=()=>me&&me.role==='admin';
+const live=()=>D.tx.filter(x=>!x.deleted_at);
+const sum=(l,ty)=>l.filter(x=>x.type===ty).reduce((a,x)=>a+Number(x.amount),0);
+const bal=()=>Number(D.set.opening_balance)+sum(live(),'contribution')-sum(live(),'expense');
+const pn=id=>(D.profs.find(p=>p.id===id)||{}).display_name||'';
+const cn=c=>c?(S.lang==='ur'?c.name_ur:c.name_en):'';
+const catName=x=>x.category_id?cn(D.cats.find(c=>c.id===x.category_id)):'';
+const ym=d=>d.slice(0,7);
+function toast(m){const e=$('#toast');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',3500)}
+function applyLang(){document.documentElement.lang=S.lang;document.documentElement.dir=S.lang==='ur'?'rtl':'ltr';localStorage.setItem('lang',S.lang)}
+
+async function boot(){applyLang();const{data:{session}}=await sb.auth.getSession();if(!session)return loginView();await load();render()}
+sb.auth.onAuthStateChange(e=>{if(e==='SIGNED_OUT')loginView()});
+async function load(){
+  const u=(await sb.auth.getUser()).data.user;
+  const [p,c,s,x,n]=await Promise.all([
+    sb.from('profiles').select('*').order('created_at'),sb.from('categories').select('*').order('id'),
+    sb.from('settings').select('*').single(),
+    sb.from('transactions').select('*').order('tx_date',{ascending:false}).order('id',{ascending:false}).limit(5000),
+    sb.from('notifications').select('*').order('created_at',{ascending:false}).limit(100)]);
+  D={profs:p.data||[],cats:c.data||[],set:s.data||{opening_balance:0},tx:x.data||[],notes:n.data||[]};
+  me=D.profs.find(q=>q.id===u.id);if(!me){toast(t('err'));return logout()}
+  S.lang=me.lang;applyLang();
+  if(!S.r){const y=new Date().getFullYear();S.r={from:y+'-01-01',to:new Date().toISOString().slice(0,10)}}
+}
+function loginView(){applyLang();$('#app').innerHTML=`<form class="card login" onsubmit="return doLogin(event)"><h1 style="color:var(--g)">برکتِ اخوت<br><small>Brothers Saving Fund 💚</small></h1>
+<label>${t('email')}<input name=email type=email required autocomplete=username dir=ltr></label>
+<label>${t('pass')}<input name=password type=password required autocomplete=current-password dir=ltr></label>
+<button style="width:100%">${t('login')}</button><p><a href="#" onclick="S.lang=S.lang==='ur'?'en':'ur';loginView();return false">${S.lang==='ur'?'English':'اردو'}</a></p></form>`}
+async function doLogin(ev){ev.preventDefault();const v=Object.fromEntries(new FormData(ev.target));
+  const{error}=await sb.auth.signInWithPassword({email:v.email,password:v.password});
+  if(error){toast(t('loginerr'));return false}await load();render();return false}
+async function logout(){await sb.auth.signOut();me=null;loginView()}
+async function setLang(l){S.lang=l;applyLang();await sb.from('profiles').update({lang:l}).eq('id',me.id);me.lang=l;render()}
+
+const NAV=['dash','contrib','exp','tx','rep','notif','set'];
+function render(){
+  const un=D.notes.filter(n=>!n.read_at).length;
+  $('#app').innerHTML=`<header><h1>برکتِ اخوت | Brothers Saving Fund 💚</h1><div>
+  <button class=alt onclick="setLang('ur')" ${S.lang==='ur'?'disabled':''}>اردو</button> <button class=alt onclick="setLang('en')" ${S.lang==='en'?'disabled':''}>English</button> <button onclick="logout()">${t('logout')}</button></div></header>
+  <nav>${NAV.map(v=>`<a class="${S.view===v?'on':''}" onclick="S.view='${v}';S.page=0;render()">${t(v)}${v==='notif'&&un?` <span class=badge>${un}</span>`:''}</a>`).join('')}</nav>
+  <main>${V[S.view]()}</main>`}
+async function refresh(){await load();render()}
+setInterval(()=>{if(me&&!dlg.open)refresh()},90000);
+
+const row=(x,act)=>`<tr class="${x.deleted_at?'del':''}"><td>#${x.id}</td><td><span class="b ${x.type[0]}">${t(x.type)}</span></td>
+<td>${esc(x.type==='contribution'?pn(x.brother_id):x.title)}${x.edited&&!x.deleted_at?` <small class=fl>${t('edited')}</small>`:''}${x.deleted_at?` <small class=fl>${t('deleted')}</small>`:''}</td>
+<td class="n ${x.type[0]}">${x.type==='expense'?'−':'+'}${fmt(x.amount)}</td><td>${x.tx_date}</td><td>${esc(catName(x))}</td>
+<td>${esc([x.reason,x.notes,x.reference].filter(Boolean).join(' · '))}</td><td>${esc(pn(x.recorded_by))}</td><td>${fdt(x.updated_at)}</td>
+${act?`<td>${!x.deleted_at&&isA()?`<button onclick="openTx('${x.type}',${x.id})">${t('edit')}</button> <button class=dng onclick="delTx(${x.id})">${t('del')}</button>`:''}</td>`:''}</tr>`;
+const table=(l,act)=>l.length?`<div class=tw><table><tr><th>${t('id')}</th><th>${t('type')}</th><th>${t('details')}</th><th>${t('amount')}</th><th>${t('date')}</th><th>${t('category')}</th><th>${t('notes')}</th><th>${t('by')}</th><th>${t('updated')}</th>${act?'<th></th>':''}</tr>${l.map(x=>row(x,act)).join('')}</table></div>`:`<p>${t('empty')}</p>`;
+
+function nmsg(n){const p=n.params,a=fmt(p.amount),en=S.lang==='en',c=p.type==='contribution';
+  if(n.kind==='added')return c?(en?`A new contribution of ${a} has been recorded for ${p.name}.`:`${p.name} کے نام سے ${a} کی نئی رقم درج کی گئی ہے۔`)
+    :(en?`A new expense of ${a} was recorded: ${p.name}, ${p.date}${p.reason?' — '+p.reason:''}.`:`${a} کا نیا خرچ درج ہوا: ${p.name}، تاریخ ${p.date}${p.reason?'، وجہ: '+p.reason:''}۔`);
+  if(n.kind==='edited')return en?`A transaction (${p.name}, ${a}) was corrected.`:`ایک لین دین (${p.name}، ${a}) درست کیا گیا ہے۔`;
+  return en?`A transaction (${p.name}, ${a}) was removed.`:`ایک لین دین (${p.name}، ${a}) ہٹا دیا گیا ہے۔`}
+const noteList=l=>l.length?l.map(n=>`<div class="card ${n.read_at?'':'un'}" onclick="readN(${n.id})"><div>${esc(nmsg(n))}</div><small>${fdt(n.created_at)}</small></div>`).join(''):`<p>${t('nonew')}</p>`;
+async function readN(id){await sb.from('notifications').update({read_at:new Date().toISOString()}).eq('id',id);refresh()}
+async function readAll(){await sb.from('notifications').update({read_at:new Date().toISOString()}).is('read_at',null);refresh()}
+
+function monthsBars(){const L=live(),now=new Date(),ms=[];
+  for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);ms.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}
+  const data=ms.map(m=>{const l=L.filter(x=>ym(x.tx_date)===m);return[m,sum(l,'contribution'),sum(l,'expense')]});
+  const mx=Math.max(1,...data.flatMap(d=>[d[1],d[2]]));
+  return`<div class=bars>${data.map(d=>`<div><span style="height:${d[1]/mx*100}%;background:var(--c)" title="${fmt(d[1])}"></span><span style="height:${d[2]/mx*100}%;background:var(--e)" title="${fmt(d[2])}"></span><br>${d[0].slice(2)}</div>`).join('')}</div><small>🟩 ${t('contribution')} &nbsp; 🟥 ${t('expense')}</small>`}
+
+const V={
+dash(){const L=live(),m=new Date().toISOString().slice(0,7),LM=L.filter(x=>ym(x.tx_date)===m);
+  return`<div class="card big"><small>${t('bal')}</small><b style="font-size:1.8rem">${fmt(bal())}</b></div>
+<div class=grid><div class=card><small>${t('tc')}</small><b>${fmt(sum(L,'contribution'))}</b></div><div class=card><small>${t('te')}</small><b>${fmt(sum(L,'expense'))}</b></div>
+<div class=card><small>${t('cm')}</small><b>${fmt(sum(LM,'contribution'))}</b></div><div class=card><small>${t('em')}</small><b>${fmt(sum(LM,'expense'))}</b></div>
+<div class=card><small>${t('cnt')}</small><b>${L.filter(x=>x.type==='contribution').length}</b></div></div>
+<div class=card><h3>${t('perbro')}</h3>${D.profs.map(p=>`<div style="display:flex;justify-content:space-between"><span>${esc(p.display_name)}</span><b style="display:inline">${fmt(sum(L.filter(x=>x.brother_id===p.id),'contribution'))}</b></div>`).join('')}</div>
+<div class=card><h3>${t('chart')}</h3>${monthsBars()}</div>
+<div class=card><h3>${t('latest')}</h3>${noteList(D.notes.slice(0,3))}</div>
+<div class=card><h3>${t('recent')}</h3>${table(D.tx.slice(0,8),false)}</div>`},
+contrib(){return`${isA()?`<button onclick="openTx('contribution')">+ ${t('addc')}</button>`:''}<div class=card>${table(D.tx.filter(x=>x.type==='contribution').slice(0,50),isA())}</div>`},
+exp(){return`${isA()?`<button onclick="openTx('expense')">+ ${t('adde')}</button>`:''}<div class=card>${table(D.tx.filter(x=>x.type==='expense').slice(0,50),isA())}</div>`},
+tx(){const f=S.f,l=filt(),PS=20,pg=Math.min(S.page,Math.max(0,Math.ceil(l.length/PS)-1)),opt=(a,sel,fn)=>a.map(o=>`<option value="${o.id}" ${sel==o.id?'selected':''}>${esc(fn(o))}</option>`).join('');
+  return`<div class="filters np"><label>${t('from')}<input type=date value="${f.from||''}" onchange="sf('from',this.value)"></label><label>${t('to')}<input type=date value="${f.to||''}" onchange="sf('to',this.value)"></label>
+<label>${t('month')}<input type=month value="${f.mv||''}" onchange="sm(this.value)"></label><label>${t('year')}<input type=number min=2000 max=2100 value="${f.yv||''}" onchange="sy(this.value)"></label>
+<label>${t('brother')}<select onchange="sf('b',this.value)"><option value="">${t('all')}</option>${opt(D.profs,f.b,p=>p.display_name)}</select></label>
+<label>${t('type')}<select onchange="sf('ty',this.value)"><option value="">${t('all')}</option><option value=contribution ${f.ty==='contribution'?'selected':''}>${t('contribution')}</option><option value=expense ${f.ty==='expense'?'selected':''}>${t('expense')}</option></select></label>
+<label>${t('category')}<select onchange="sf('cat',this.value)"><option value="">${t('all')}</option>${opt(D.cats,f.cat,cn)}</select></label></div>
+<button class="alt np" onclick="exportTx()">${t('csv')}</button><div class=card>${table(l.slice(pg*PS,pg*PS+PS),isA())}</div>
+<div class=np style="display:flex;justify-content:space-between"><button ${pg<=0?'disabled':''} onclick="S.page=${pg-1};render()">${t('prev')}</button><span>${pg+1} / ${Math.max(1,Math.ceil(l.length/PS))}</span><button ${(pg+1)*PS>=l.length?'disabled':''} onclick="S.page=${pg+1};render()">${t('next')}</button></div>`},
+rep(){const r=S.r,L=live(),bf=L.filter(x=>x.tx_date<r.from),inn=L.filter(x=>x.tx_date>=r.from&&x.tx_date<=r.to);
+  const op=Number(D.set.opening_balance)+sum(bf,'contribution')-sum(bf,'expense'),c=sum(inn,'contribution'),e=sum(inn,'expense');
+  return`<div class="filters np"><label>${t('from')}<input type=date value="${r.from}" onchange="S.r.from=this.value;render()"></label><label>${t('to')}<input type=date value="${r.to}" onchange="S.r.to=this.value;render()"></label></div>
+<button class="alt np" onclick="exportRep()">${t('csv')}</button> <button class="alt np" onclick="print()">${t('print')}</button>
+<h2>${t('app')} — ${t('rep')}<br><small>${r.from} → ${r.to}</small></h2>
+<div class=grid><div class=card><small>${t('opening')}</small><b>${fmt(op)}</b></div><div class=card><small>${t('tc')}</small><b>${fmt(c)}</b></div><div class=card><small>${t('te')}</small><b>${fmt(e)}</b></div><div class=card><small>${t('net')}</small><b>${fmt(c-e)}</b></div><div class=card><small>${t('close')}</small><b>${fmt(op+c-e)}</b></div></div>
+<div class=card><h3>${t('bybro')}</h3>${D.profs.map(p=>`<div style="display:flex;justify-content:space-between"><span>${esc(p.display_name)}</span><b style="display:inline">${fmt(sum(inn.filter(x=>x.brother_id===p.id),'contribution'))}</b></div>`).join('')}</div>
+<div class=card><h3>${t('bycat')}</h3>${D.cats.map(k=>`<div style="display:flex;justify-content:space-between"><span>${esc(cn(k))}</span><b style="display:inline">${fmt(sum(inn.filter(x=>x.category_id===k.id),'expense'))}</b></div>`).join('')}</div>
+<div class=card><h3>${t('tx')}</h3>${table(inn,false)}</div>`},
+notif(){return`<button class=alt onclick="readAll()">${t('markall')}</button><div style="margin-top:10px">${noteList(D.notes)}</div>`},
+set(){return`<div class=card><h3>${t('lang')}</h3><button onclick="setLang('ur')">اردو</button> <button onclick="setLang('en')">English</button></div>
+<form class=card onsubmit="return chPass(event)"><h3>${t('pass')}</h3><label>${t('newpass')}<input type=password name=p minlength=8 required autocomplete=new-password dir=ltr></label><button>${t('change')}</button></form>
+${isA()?`<form class=card onsubmit="return saveOpen(event)"><h3>${t('opening')}</h3><label>${t('amount')}<input type=number step=0.01 min=0 name=o value="${D.set.opening_balance}" required></label><button>${t('save')}</button></form>
+<div class=card><h3>${t('brothers')}</h3>${D.profs.map(p=>`<form onsubmit="return saveName(event,'${p.id}')" style="display:flex;gap:6px;margin:4px 0"><input name=n value="${esc(p.display_name)}" required maxlength=60 style="flex:1"><button>${t('save')}</button></form>`).join('')}</div>
+<form class=card onsubmit="return addCat(event)"><h3>${t('cats')}</h3><label>${t('nameen')}<input name=en required maxlength=80 dir=ltr></label><label>${t('nameur')}<input name=ur required maxlength=80></label><button>${t('addc').replace(t('addc'),'+')}</button></form>`:''}`}
+};
+function filt(){const f=S.f;return D.tx.filter(x=>(!f.from||x.tx_date>=f.from)&&(!f.to||x.tx_date<=f.to)&&(!f.b||x.brother_id===f.b)&&(!f.ty||x.type===f.ty)&&(!f.cat||x.category_id==f.cat))}
+function sf(k,v){S.f[k]=v;S.page=0;render()}
+function sm(v){S.f.yv='';S.f.mv=v;if(!v)S.f.from=S.f.to='';else{const[y,m]=v.split('-');S.f.from=v+'-01';S.f.to=v+'-'+String(new Date(y,m,0).getDate()).padStart(2,'0')}S.page=0;render()}
+function sy(v){S.f.mv='';S.f.yv=v;S.f.from=v?v+'-01-01':'';S.f.to=v?v+'-12-31':'';S.page=0;render()}
+
+function openTx(type,id){const x=id?D.tx.find(q=>q.id==id):{},today=new Date().toISOString().slice(0,10),c=type==='contribution';
+  dlg.innerHTML=`<form onsubmit="return saveTx(event,'${type}',${id||'null'})"><h3>${c?t('addc'):t('adde')}</h3>
+${c?`<label>${t('brother')}<select name=brother_id required>${D.profs.map(p=>`<option value="${p.id}" ${x.brother_id===p.id?'selected':''}>${esc(p.display_name)}</option>`).join('')}</select></label>`
+:`<label>${t('title')}<input name=title required maxlength=120 value="${esc(x.title)}"></label><label>${t('category')}<select name=category_id required>${D.cats.map(k=>`<option value="${k.id}" ${x.category_id==k.id?'selected':''}>${esc(cn(k))}</option>`).join('')}</select></label>`}
+<label>${t('amount')}<input name=amount type=number step=0.01 min=${c?0:0.01} max=99999999999 required value="${x.amount??''}" dir=ltr></label>
+<label>${t('date')}<input name=tx_date type=date required value="${x.tx_date||today}"></label>
+${c?`<label>${t('period')}<input name=period type=month value="${x.period||today.slice(0,7)}"></label><label>${t('ref')}<input name=reference maxlength=120 value="${esc(x.reference)}"></label>`:`<label>${t('reason')}<textarea name=reason required maxlength=500>${esc(x.reason)}</textarea></label>`}
+<label>${t('notes')}<textarea name=notes maxlength=500>${esc(x.notes)}</textarea></label>
+<button type=submit>${t('save')}</button> <button type=button class=alt onclick="dlg.close()">${t('cancel')}</button></form>`;dlg.showModal()}
+async function saveTx(ev,type,id){ev.preventDefault();const b=ev.target.querySelector('[type=submit]'),v=Object.fromEntries(new FormData(ev.target)),amt=Number(v.amount);
+  if(!isFinite(amt)||amt<0||(type==='expense'&&amt<=0)){toast(t('invalid'));return false}
+  if(type==='expense'&&amt>bal()&&!confirm(t('warnbal')))return false;
+  b.disabled=true;const row={type,amount:amt,tx_date:v.tx_date,notes:v.notes||null};
+  if(type==='contribution'){row.brother_id=v.brother_id;row.period=v.period||null;row.reference=v.reference||null}
+  else{row.title=v.title.trim();row.category_id=+v.category_id;row.reason=v.reason||null}
+  const r=id?await sb.from('transactions').update(row).eq('id',id):await sb.from('transactions').insert(row);
+  b.disabled=false;if(r.error){toast(t('err')+': '+r.error.message);return false}
+  dlg.close();toast(t('saved'));await refresh();return false}
+async function delTx(id){if(!confirm(t('delconf')))return;
+  const r=await sb.from('transactions').update({deleted_at:new Date().toISOString()}).eq('id',id);
+  if(r.error)return toast(t('err')+': '+r.error.message);toast(t('saved'));refresh()}
+async function chPass(ev){ev.preventDefault();const{error}=await sb.auth.updateUser({password:ev.target.p.value});toast(error?t('err')+': '+error.message:t('passok'));if(!error)ev.target.reset();return false}
+async function saveOpen(ev){ev.preventDefault();const r=await sb.from('settings').update({opening_balance:Number(ev.target.o.value)}).eq('id',1);toast(r.error?t('err'):t('saved'));refresh();return false}
+async function saveName(ev,id){ev.preventDefault();const r=await sb.rpc('set_name',{uid:id,nm:ev.target.n.value});toast(r.error?t('err'):t('saved'));refresh();return false}
+async function addCat(ev){ev.preventDefault();const r=await sb.from('categories').insert({name_en:ev.target.en.value.trim(),name_ur:ev.target.ur.value.trim()});toast(r.error?t('err'):t('saved'));if(!r.error){ev.target.reset();refresh()}return false}
+
+function dl(rows,name){const s='\ufeff'+rows.map(r=>r.map(c=>{c=String(c??'');if(/^[=+\-@]/.test(c))c="'"+c;return'"'+c.replace(/"/g,'""')+'"'}).join(',')).join('\r\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s],{type:'text/csv;charset=utf-8'}));a.download=name;a.click()}
+const txRows=l=>[[t('id'),t('type'),t('details'),t('amount'),t('date'),t('category'),t('notes'),t('by')],...l.map(x=>[x.id,t(x.type),x.type==='contribution'?pn(x.brother_id):x.title,x.amount,x.tx_date,catName(x),[x.reason,x.notes,x.reference].filter(Boolean).join(' · '),pn(x.recorded_by)])];
+function exportTx(){dl(txRows(filt().filter(x=>!x.deleted_at)),'transactions.csv')}
+function exportRep(){const r=S.r,inn=live().filter(x=>x.tx_date>=r.from&&x.tx_date<=r.to);
+  dl([[t('rep'),r.from,r.to],[t('tc'),sum(inn,'contribution')],[t('te'),sum(inn,'expense')],[t('net'),sum(inn,'contribution')-sum(inn,'expense')],[],[t('bybro')],...D.profs.map(p=>[p.display_name,sum(inn.filter(x=>x.brother_id===p.id),'contribution')]),[],[t('bycat')],...D.cats.map(k=>[cn(k),sum(inn.filter(x=>x.category_id===k.id),'expense')]),[],...txRows(inn)],'report.csv')}
+boot();
+</script></body></html>
